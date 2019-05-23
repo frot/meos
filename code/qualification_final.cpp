@@ -20,7 +20,7 @@
 
 ************************************************************************/
 
-#include "StdAfx.h"
+#include "stdafx.h"
 
 #include "qualification_final.h"
 

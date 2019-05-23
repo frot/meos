@@ -26,6 +26,7 @@
 #include <cassert>
 #include "guihandler.h"
 #include "gdifonts.h"
+#include "gdiconstants.h"
 
 class BaseInfo
 {
@@ -54,7 +55,7 @@ public:
   virtual HWND getControlWindow() const = 0;
 
   virtual void refresh() {
-    InvalidateRect(getControlWindow(), 0, true);
+      //InvalidateRect(getControlWindow(), 0, true);
   }
 
   BaseInfo &setExtra(const wchar_t *e) {extra=(void *)e; dataString = true; return *this;}
@@ -96,7 +97,7 @@ public:
   GUICALLBACK onClear;
   GUICALLBACK postClear;
 
-  HWND getControlWindow() const {throw std::exception("Unsupported");}
+  HWND getControlWindow() const { throw std::runtime_error("Unsupported"); }
 };
 
 class RectangleInfo : public BaseInfo
@@ -121,7 +122,7 @@ public:
 
   RectangleInfo &changeDimension(gdioutput &gdi, int dx, int dy); 
 
-  HWND getControlWindow() const {throw std::exception("Unsupported");}
+  HWND getControlWindow() const { throw std::runtime_error("Unsupported"); }
 };
 
 
@@ -133,7 +134,7 @@ public:
   int yp;
   Table *table;
 
-  HWND getControlWindow() const {throw std::exception("Unsupported");}
+  HWND getControlWindow() const { throw std::runtime_error("Unsupported");}
 };
 
 
@@ -187,7 +188,7 @@ public:
   bool active;
 
 
-  HWND getControlWindow() const {throw std::exception("Unsupported");}
+  HWND getControlWindow() const { throw std::runtime_error("Unsupported"); }
 
   friend class gdioutput;
 };
@@ -362,7 +363,7 @@ public:
   EventInfo();
   GUICALLBACK callBack;
 
-  HWND getControlWindow() const {throw std::exception("Unsupported");}
+  HWND getControlWindow() const { throw std::runtime_error("Unsupported"); }
 };
 
 class TimerInfo : public BaseInfo
@@ -394,7 +395,7 @@ public:
   friend class gdioutput;
   friend void CALLBACK gdiTimerProc(HWND hWnd, UINT a, UINT_PTR ptr, DWORD b);
 
-  HWND getControlWindow() const {throw std::exception("Unsupported");}
+  HWND getControlWindow() const { throw std::runtime_error("Unsupported"); }
 };
 
 
@@ -414,7 +415,7 @@ public:
 
   DWORD TimeOut;
 
-  HWND getControlWindow() const {throw std::exception("Unsupported");}
+  HWND getControlWindow() const { throw std::runtime_error("Unsupported"); }
 };
 
 typedef list<TextInfo> TIList;

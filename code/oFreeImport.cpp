@@ -31,9 +31,9 @@
 
 #include "meos_util.h"
 
-#include "io.h"
-#include "fcntl.h"
-#include "sys/stat.h"
+#include <sys/io.h>
+#include <fcntl.h>
+#include <sys/stat.h>
 #include <cassert>
 #include <algorithm>
 

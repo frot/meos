@@ -67,9 +67,6 @@ class AnimationData;
 
 typedef int (*GUICALLBACK)(gdioutput *gdi, int type, void *data);
 
-enum GDICOLOR;
-enum KeyCommandCode;
-enum gdiFonts;
 #include "gdistructures.h"
 #include <memory>
 
@@ -170,7 +167,7 @@ protected:
   struct FucusInfo {
     bool wasTabbed;
     HWND hWnd;
-    FucusInfo() : wasTabbed(false), hWnd(false) {}
+    FucusInfo() : wasTabbed(false), hWnd(NULL) {}
     FucusInfo(HWND wnd) : wasTabbed(false), hWnd(wnd) {}
   };
 

@@ -14,17 +14,18 @@
 
 #define NOMINMAX
 // Windows Header Files:
-#include <windows.h>
-#include <commctrl.h>
+//#include <windows.h>
+#include "wincompat.h"
+//#include <commctrl.h>
 
 // C RunTime Header Files
 
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
-#include <crtdbg.h>
+//#include <crtdbg.h>
 
 #include <memory>
-#include <tchar.h>
+//#include <tchar.h>
 
 #include <string>
 #include <fstream>

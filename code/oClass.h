@@ -32,17 +32,17 @@
 ************************************************************************/
 
 #include "oCourse.h"
+#include "oRunner.h"
 #include <vector>
 #include <set>
 #include <map>
 #include "inthashmap.h"
+
 class oClass;
 typedef oClass* pClass;
 class oDataInterface;
 
 const int MaxClassId = 1000000;
-
-enum PersonSex;
 
 enum StartTypes {
   STTime=0,
@@ -51,6 +51,7 @@ enum StartTypes {
   STHunting,
   ST_max
 };
+
 enum { nStartTypes = ST_max };
 
 enum LegTypes {
@@ -63,8 +64,8 @@ enum LegTypes {
   LTGroup,
   LT_max,
 };
-enum { nLegTypes = LT_max };
 
+enum { nLegTypes = LT_max };
 
 enum BibMode {
   BibSame,

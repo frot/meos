@@ -38,7 +38,7 @@ class BaseInfo;
 class GuiHandler {
 public:
   GuiHandler() {}
-  virtual ~GuiHandler() = 0 {}
+  virtual ~GuiHandler() = 0;
   virtual void handle(gdioutput &gdi, BaseInfo &info, GuiEventType type) = 0;
 };
 
