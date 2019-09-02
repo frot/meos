@@ -156,7 +156,7 @@ void TabControl::save(gdioutput &gdi)
   pc = oe->getControl(pcid, false);
 
   if (!pc)
-    throw std::exception("Internal error");
+    throw std::runtime_error("Internal error");
   if (pc->getStatus() != oControl::StatusFinish && pc->getStatus() != oControl::StatusStart) {
     if (!pc->setNumbers(gdi.getText("Code")))
       gdi.alert("Kodsiffran måste vara ett heltal. Flera kodsiffror måste separeras med komma.");
@@ -411,7 +411,7 @@ int TabControl::controlCB(gdioutput &gdi, int type, void *data)
 
       pControl pc=oe->getControl(bi.data, false);
       if (!pc)
-        throw std::exception("Internal error");
+        throw std::runtime_error("Internal error");
 
       selectControl(gdi, pc);
     }

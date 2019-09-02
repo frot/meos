@@ -845,7 +845,7 @@ bool oEvent::save()
   autoSynchronizeLists(true);
 
   if (!CurrentFile[0])
-    throw std::exception("Felaktigt filnamn");
+    throw std::runtime_error("Felaktigt filnamn");
 
   int f=0;
   _wsopen_s(&f, CurrentFile, _O_RDONLY, _SH_DENYNO, _S_IWRITE);
@@ -5599,7 +5599,7 @@ void oEvent::generateTableData(const string &tname, Table &table, TableUpdateInf
     }
     return;
   }
-  throw std::exception("Wrong table name");
+  throw std::runtime_error("Wrong table name");
 }
 
 void oEvent::applyEventFees(bool updateClassFromEvent,
@@ -6703,7 +6703,7 @@ void oEvent::transferResult(oEvent &ce,
 
 MetaListContainer &oEvent::getListContainer() const {
   if (!listContainer)
-    throw std::exception("Nullpointer exception");
+    throw std::runtime_error("Nullpointer exception");
   return *listContainer;
 }
 

@@ -405,7 +405,7 @@ void oEvent::setupRelayInfo(PredefinedTypes type, bool &useNLeg, bool &useStart)
       break;
 
     default:
-      throw std::exception("Bad setup number");
+      throw std::runtime_error("Bad setup number");
   }
 }
 
@@ -653,7 +653,7 @@ void oEvent::setupRelay(oClass &cls, PredefinedTypes type, int nleg, const wstri
       break;
     }
     default:
-      throw std::exception("Bad setup number");
+      throw std::runtime_error("Bad setup number");
   }
   cls.apply();
   cls.synchronize(true);

@@ -445,7 +445,7 @@ int TabSI::siCB(gdioutput &gdi, int type, void *data)
           }
           else {
             loadPage(gdi);
-            throw std::exception("Felaktigt filformat");
+            throw std::runtime_error("Felaktigt filformat");
           }
         }
         else {

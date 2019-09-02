@@ -290,7 +290,7 @@ int TabClub::clubCB(gdioutput &gdi, int type, void *data)
       pClub pc2 = oe->getClub(gdi.getSelectedItem("NewClub").first);
 
       if (pc1==pc2)
-        throw std::exception("En klubb kan inte slås ihop med sig själv.");
+        throw std::runtime_error("En klubb kan inte slås ihop med sig själv.");
 
       if (pc1 && pc2)
         oe->mergeClub(pc2->getId(), pc1->getId());
@@ -573,7 +573,7 @@ int TabClub::clubCB(gdioutput &gdi, int type, void *data)
     if (bi.id=="Clubs"){
       pClub pc=oe->getClub(bi.data);
       if (!pc)
-        throw std::exception("Internal error");
+        throw std::runtime_error("Internal error");
 
       selectClub(gdi, pc);
     }

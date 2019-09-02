@@ -1460,7 +1460,7 @@ ListBoxInfo &gdioutput::addListBox(const string &id, int width, int height, GUIC
 LRESULT CALLBACK GetMsgProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam) {
   ListBoxInfo *lbi = (ListBoxInfo *)(GetWindowLongPtr(hWnd, GWL_USERDATA));
   if (!lbi) {
-    throw std::exception("Internal GDI error");
+    throw std::runtime_error("Internal GDI error");
   }
 
   LPARAM res = CallWindowProc(lbi->originalProc, hWnd, iMsg, wParam, lParam);
@@ -1485,7 +1485,7 @@ void gdioutput::synchronizeListScroll(const string &id1, const string &id2)
       b = &*it;
   }
   if (!a || !b)
-    throw std::exception("Not found");
+    throw std::runtime_error("Not found");
 
   a->lbiSync = b;
   b->lbiSync = a;
@@ -5121,7 +5121,7 @@ DWORD gdioutput::makeEvent(const string &id, const string &origin,
 #ifndef MEOSDB
     ::flushEvent(id, origin, data, extraData);
 #else
-    throw std::exception("internal gdi/database error");
+    throw std::runtime_error("internal gdi/database error");
 #endif
   }
   else {
@@ -5655,7 +5655,7 @@ void gdioutput::getTargetDimension(int &x, int &y) const
 
 Table &gdioutput::getTable() const {
   if (Tables.empty())
-    throw std::exception("No table defined");
+    throw std::runtime_error("No table defined");
 
   return *const_cast<Table *>(Tables.back().table);
 }

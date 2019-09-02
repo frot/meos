@@ -96,7 +96,7 @@ Localizer::LocalizerInternal::~LocalizerInternal(void)
 void Localizer::LocalizerInternal::set(Localizer &lio) {
   Localizer::LocalizerInternal &li = *lio.linternal;
   if (li.user || user)
-    throw std::exception("Runtime error");
+    throw std::runtime_error("Runtime error");
 
   if (owning) {
     delete impl;
@@ -304,7 +304,7 @@ const oWordList &LocalizerImpl::getGivenNames() const {
 void Localizer::LocalizerInternal::loadLangResource(const wstring &name) {
   map<wstring,wstring>::iterator it = langResource.find(name);
   if (it == langResource.end())
-    throw std::exception("Unknown language");
+    throw std::runtime_error("Unknown language");
 
   wstring &res = it->second;
 
@@ -364,7 +364,7 @@ void LocalizerImpl::loadTable(int id, const wstring &language)
   HGLOBAL hGlobal = LoadResource(0, hResInfo);
 
   if (hGlobal==0)
-    throw std::exception("Resource not found");
+    throw std::runtime_error("Resource not found");
 
   int size = SizeofResource(0, hResInfo);
 
@@ -442,7 +442,7 @@ void LocalizerImpl::loadTable(const vector<string> &raw, const wstring &language
     int pos = s.find_first_of('=');
 
     if (pos==string::npos)
-      throw std::exception("Bad file format.");
+      throw std::runtime_error("Bad file format.");
     int spos = pos;
     int epos = pos+1;
     while (spos>0 && s[spos-1]==' ')

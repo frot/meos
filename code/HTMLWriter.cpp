@@ -272,7 +272,7 @@ void HTMLWriter::writeHTML(gdioutput &gdi, const wstring &file,
   checkWriteAccess(file);
   ofstream fout(file.c_str());
   if (fout.bad())
-    throw std::exception("Bad output stream");
+    throw std::runtime_error("Bad output stream");
   
   writeHTML(gdi, fout, title, refreshTimeOut, scale);
 }
@@ -339,7 +339,7 @@ void HTMLWriter::writeTableHTML(gdioutput &gdi,
   ofstream fout(file.c_str());
 
   if (fout.bad())
-    return throw std::exception("Bad output stream");
+    return throw std::runtime_error("Bad output stream");
 
   writeTableHTML(gdi, fout, title, false, refreshTimeOut, scale);
 }
@@ -645,7 +645,7 @@ const HTMLWriter &HTMLWriter::getWriter(TemplateType type, const string &tag) {
       }
     }
     if (ix == -1)
-      throw std::exception("Internal error");
+      throw std::runtime_error("Internal error");
 
     shared_ptr<HTMLWriter> tmpl = make_shared<HTMLWriter>();
     tmpl->read(descriptionFile[ix].file);
@@ -947,7 +947,7 @@ void HTMLWriter::write(gdioutput &gdi, ostream &fout, const wstring &title, cons
       }
 
       if (ix == -1)
-        throw std::exception("Internal error");
+        throw std::runtime_error("Internal error");
 
       shared_ptr<HTMLWriter> tmpl = make_shared<HTMLWriter>();
       tmpl->read(htmlTmpl[ix].file);

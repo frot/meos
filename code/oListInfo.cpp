@@ -2873,7 +2873,7 @@ void oEvent::generateListInternal(gdioutput &gdi, const oListInfo &li, bool form
     if (li.calcTotalResults)
       calculateTeamResults(true);
     if (li.rogainingResults && li.resultModule.empty())
-      throw std::exception("Not implemented");
+      throw std::runtime_error("Not implemented");
     if (li.calcCourseClassResults)
       calculateResults(li.lp.selection, ResultType::ClassCourseResult);
 
@@ -4319,7 +4319,7 @@ void oEvent::generateListInfoAux(oListParam &par, int lineHeight, oListInfo &li,
     case EStdTeamStartListLeg: {
       wchar_t title[256];
       if (li.lp.getLegNumberCoded() == 1000)
-        throw std::exception("Ogiltigt val av sträcka");
+        throw std::runtime_error("Ogiltigt val av sträcka");
 
       swprintf_s(title, lang.tl(L"Startlista %%s - sträcka X#" + li.lp.getLegName()).c_str());
 
@@ -4347,7 +4347,7 @@ void oEvent::generateListInfoAux(oListParam &par, int lineHeight, oListInfo &li,
     }
     case EStdIndMultiStartListLeg:
       if (li.lp.getLegNumberCoded() == 1000)
-        throw std::exception("Ogiltigt val av sträcka");
+        throw std::runtime_error("Ogiltigt val av sträcka");
 
       //sprintf_s(title, lang.tl("Startlista lopp %d - %%s").c_str(), li.lp.legNumber+1);
       ln=li.lp.getLegInfo(sampleClass);
@@ -4417,7 +4417,7 @@ void oEvent::generateListInfoAux(oListParam &par, int lineHeight, oListInfo &li,
 
     case EStdIndMultiResultListLegLARGE:
       if (li.lp.getLegNumberCoded() == 1000)
-        throw std::exception("Ogiltigt val av sträcka");
+        throw std::runtime_error("Ogiltigt val av sträcka");
 
       ln=li.lp.getLegInfo(sampleClass);
 
@@ -4745,7 +4745,7 @@ void oEvent::generateListInfoAux(oListParam &par, int lineHeight, oListInfo &li,
 
     default:
       if (!getListContainer().interpret(this, gdibase, par, lineHeight, li))
-        throw std::exception("Not implemented");
+        throw std::runtime_error("Not implemented");
   }
 }
 

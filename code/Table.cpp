@@ -231,7 +231,7 @@ void Table::addRow(int rowId, oBase *object)
 void Table::set(int column, oBase &owner, int id, const wstring &data, bool canEdit, CellType type)
 {
   if (dataPointer >= Data.size() || dataPointer<2)
-    throw std::exception("Internal table error: wrong data pointer");
+    throw std::runtime_error("Internal table error: wrong data pointer");
 
   TableRow &row=Data[dataPointer];
   TableCell &cell=row.cells[column];
@@ -721,7 +721,7 @@ int tblSelectionCB(gdioutput *gdi, int type, void *data)
 
 void Table::selection(gdioutput &gdi, const wstring &text, int data) {
  if (size_t(selectionRow) >= Data.size() || size_t(selectionCol) >= Titles.size())
-   throw std::exception("Index out of bounds.");
+   throw std::runtime_error("Index out of bounds.");
 
  TableCell &cell = Data[selectionRow].cells[selectionCol];
  int id = Data[selectionRow].id;
@@ -1370,11 +1370,11 @@ void Table::draw(gdioutput &gdi, HDC hDC, int dx, int dy, const RECT &screen)
 
 TableCell &Table::getCell(int row, int col) const {
   if (size_t(row) >= sortIndex.size())
-    throw std::exception("Index out of range");
+    throw std::runtime_error("Index out of range");
   const TableRow &tr = Data[sortIndex[row].index];
 
   if ( size_t(col) >= columns.size())
-    throw std::exception("Index out of range");
+    throw std::runtime_error("Index out of range");
 
   col = columns[col];
   return *((TableCell *)&tr.cells[col]);
@@ -1591,7 +1591,7 @@ bool Table::tabFocus(gdioutput &gdi, int direction)
 
 void Table::setTableText(gdioutput &gdi, int editRow, int editCol, const wstring &bf) {
   if (size_t(editRow) >= Data.size() || size_t(editCol) >= Data[editRow].cells.size())
-    throw std::exception("Index out of bounds");
+    throw std::runtime_error("Index out of bounds");
 
   wstring output;
   TableCell &cell=Data[editRow].cells[editCol];
@@ -1609,7 +1609,7 @@ void Table::setTableText(gdioutput &gdi, int editRow, int editCol, const wstring
 
 const wstring &Table::getTableText(gdioutput &gdi, int editRow, int editCol) {
   if (size_t(editRow) >= Data.size() || size_t(editCol) >= Data[editRow].cells.size())
-    throw std::exception("Index out of bounds");
+    throw std::runtime_error("Index out of bounds");
 
   string output;
   TableCell &cell=Data[editRow].cells[editCol];
@@ -1724,10 +1724,10 @@ void Table::reloadRow(int rowId)
 {
   int index;
   if (!idToRow.lookup(rowId, index))
-    throw std::exception("Row not found.");
+    throw std::runtime_error("Row not found.");
 
   if (index >= int(Data.size()))
-    throw std::exception("Index out of bounds.");
+    throw std::runtime_error("Index out of bounds.");
 
   TableRow &row=Data[index];
   oBase *obj = row.getObject();
@@ -1842,12 +1842,12 @@ void Table::getExportData(int col1, int col2, int row1, int row2, wstring &html,
 
   for (size_t k = row1; k<=size_t(row2); k++) {
     if ( k >= sortIndex.size())
-      throw std::exception("Index out of range");
+      throw std::runtime_error("Index out of range");
     const TableRow &tr = Data[sortIndex[k].index];
     html += L"<tr>";
     for (size_t j = col1; j<= size_t(col2); j++) {
       if ( j >= columns.size())
-        throw std::exception("Index out of range");
+        throw std::runtime_error("Index out of range");
       int col = columns[j];
       const TableCell &cell = tr.cells[col];
       html += L"<td>" + cell.contents + L"</td>";
@@ -1984,7 +1984,7 @@ void Table::exportClipboard(gdioutput &gdi)
 void Table::importClipboard(gdioutput &gdi)
 {
   if (!canPaste())
-    throw std::exception("Operationen stöds ej");
+    throw std::runtime_error("Operationen stöds ej");
 
   wstring str;
   if (OpenClipboard(gdi.getHWNDMain()) != false) {
@@ -2046,7 +2046,7 @@ void Table::importClipboard(gdioutput &gdi)
       tw = max(tw, table[k].size());
 
     if (tw > columns.size())
-      throw std::exception("Antalet columner i urklippet är större än antalet kolumner i tabellen.");
+      throw std::runtime_error("Antalet columner i urklippet är större än antalet kolumner i tabellen.");
 
     if (upperRow == -1) {
       if (!gdi.ask(L"Vill du klistra in X nya rader i tabellen?#"+itow(table.size())))
@@ -2060,10 +2060,10 @@ void Table::importClipboard(gdioutput &gdi)
       getRowRange(row1, row2);
 
       if ( (row1 + table.size()) > sortIndex.size() )
-        throw std::exception("Antalet rader i urklipp får inte plats i selektionen.");
+        throw std::runtime_error("Antalet rader i urklipp får inte plats i selektionen.");
 
       if ( (col1 + tw) > columns.size() )
-        throw std::exception("Antalet kolumner i urklipp får inte plats i selektionen.");
+        throw std::runtime_error("Antalet kolumner i urklipp får inte plats i selektionen.");
 
       bool wrongSize = false;
 
@@ -2086,7 +2086,7 @@ void Table::importClipboard(gdioutput &gdi)
       if (table[k].empty())
         continue;
       if ( (rowS + k) > sortIndex.size()) {
-        throw std::exception("Index out of range");
+        throw std::runtime_error("Index out of range");
       }
       else if ( (rowS + k) == sortIndex.size()) {
          // Add data
@@ -2100,7 +2100,7 @@ void Table::importClipboard(gdioutput &gdi)
       TableRow &tr = Data[sortIndex[rowS + k].index];
       for (size_t j = 0; j<table[k].size(); j++) {
         if ( (colS + j) >= columns.size())
-          throw std::exception("Index out of range");
+          throw std::runtime_error("Index out of range");
         int col = columns[colS + j];
 
         TableCell &cell=tr.cells[col];
@@ -2157,12 +2157,12 @@ void Table::importClipboard(gdioutput &gdi)
 int Table::deleteRows(int row1, int row2)
 {
   if (!canDelete())
-    throw std::exception("Operationen stöds ej");
+    throw std::runtime_error("Operationen stöds ej");
 
   int failed = 0;
   for (size_t k = row1; k<=size_t(row2); k++) {
     if ( k >= sortIndex.size())
-      throw std::exception("Index out of range");
+      throw std::runtime_error("Index out of range");
     const TableRow &tr = Data[sortIndex[k].index];
     oBase *ob = tr.cells[0].getOwner();
     if (ob) {
@@ -2181,7 +2181,7 @@ int Table::deleteRows(int row1, int row2)
 
 void Table::insertRow(gdioutput &gdi) {
   if (!canInsert())
-    throw std::exception("Operationen stöds ej");
+    throw std::runtime_error("Operationen stöds ej");
 
   TableUpdateInfo tui;
   tui.doAdd = true;

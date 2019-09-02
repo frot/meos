@@ -86,7 +86,7 @@ int makedir (const wchar_t *newdir)
 
     wstring sub = buffer.substr(0, index);
     if ((mymkdir(sub.c_str()) == -1) && (errno == ENOENT)) {
-      throw std::exception("Error creating directories");
+      throw std::runtime_error("Error creating directories");
     }
     index++;
     if (hold == 0)
@@ -171,7 +171,7 @@ wstring do_extract_currentfile(unzFile uf, const wstring &baseDir, const char* p
 
       if (err>0)
         if (fwrite(buf,err,1,fout)!=1) {
-          throw std::exception("Error writing extracted file.");
+          throw std::runtime_error("Error writing extracted file.");
         }
     }
     while (err>0);
@@ -226,7 +226,7 @@ void unzip(const wchar_t *wzipfilename, const char *password, vector<wstring> &e
   unzFile uf = unzOpen2_64(wzfn.c_str(),&ffunc);
 
   if (uf==NULL)
-    throw std::exception("Cannot open zip file");
+    throw std::runtime_error("Cannot open zip file");
 
   wstring base = getTempPath();
   wchar_t end = base[base.length()-1];
@@ -242,7 +242,7 @@ void unzip(const wchar_t *wzipfilename, const char *password, vector<wstring> &e
   while ( _waccess( target.c_str(), 0 ) == 0 );
 
   if (CreateDirectory(target.c_str(), NULL) == 0)
-    throw std::exception("Failed to create temporary folder");
+    throw std::runtime_error("Failed to create temporary folder");
 
   registerTempFile(target);
   do_extract(uf, target.c_str(), password, extractedFiles);

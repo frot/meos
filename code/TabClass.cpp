@@ -300,7 +300,7 @@ int TabClass::multiCB(gdioutput &gdi, int type, void *data)
         return false;
       pClass pc=oe->getClass(ClassId);
       if (!pc)
-        throw std::exception("Klassen finns ej.");
+        throw std::runtime_error("Klassen finns ej.");
 
       vector< vector<int> > forks;
       set< pair<int, int> > unfairLegs;
@@ -390,7 +390,7 @@ int TabClass::multiCB(gdioutput &gdi, int type, void *data)
         return false;
       pClass pc=oe->getClass(ClassId);
       if (!pc)
-        throw std::exception("Klassen finns ej.");
+        throw std::runtime_error("Klassen finns ej.");
       pc->setNumStages(0);
       pc->synchronize();
       gdi.restore();
@@ -403,7 +403,7 @@ int TabClass::multiCB(gdioutput &gdi, int type, void *data)
       pClass pc=oe->getClass(ClassId);
 
       if (!pc)
-        throw std::exception("Klassen finns ej.");
+        throw std::runtime_error("Klassen finns ej.");
 
       int total, finished, dns;
       pc->getNumResults(0, total, finished, dns);
@@ -1492,7 +1492,7 @@ int TabClass::classCB(gdioutput &gdi, int type, void *data)
       int t=oe->getRelativeTime(time);
 
       if (t<=0)
-        throw std::exception("Ogiltig första starttid. Måste vara efter nolltid.");
+        throw std::runtime_error("Ogiltig första starttid. Måste vara efter nolltid.");
   
       
       oEvent::DrawType dtype(oEvent::DrawType::DrawAll);
@@ -1573,7 +1573,7 @@ int TabClass::classCB(gdioutput &gdi, int type, void *data)
                                        sg, noClubNb, reverse, pairSize); 
       }
       else
-        throw std::exception("Not implemented");
+        throw std::runtime_error("Not implemented");
 
       if (doBibs)
         oe->addBib(cid, leg, bib);
@@ -1633,7 +1633,7 @@ int TabClass::classCB(gdioutput &gdi, int type, void *data)
       pClass pc=oe->getClass(cid);
 
       if (!pc)
-        throw std::exception("Class not found");
+        throw std::runtime_error("Class not found");
       if (EditChanged)
         gdi.sendCtrlMessage("Save");
 
@@ -1666,7 +1666,7 @@ int TabClass::classCB(gdioutput &gdi, int type, void *data)
 
       pClass pc=oe->getClass(ClassId);
       if (!pc)
-        throw std::exception("Class not found");
+        throw std::runtime_error("Class not found");
 
       if (!gdi.isChecked(bi.id) && (lastDrawMethod == oEvent::DrawMethod::ReversePursuit ||
                                    lastDrawMethod == oEvent::DrawMethod::Pursuit)) {
@@ -1680,7 +1680,7 @@ int TabClass::classCB(gdioutput &gdi, int type, void *data)
       save(gdi, true);
       pClass pc = oe->getClass(ClassId);
       if (!pc)
-        throw std::exception("Class not found");
+        throw std::runtime_error("Class not found");
 
       vector< pair<wstring, wstring> > ext;
       ext.push_back(make_pair(L"Qualfication/Final", L"*.xml"));
@@ -1692,7 +1692,7 @@ int TabClass::classCB(gdioutput &gdi, int type, void *data)
     else if (bi.id == "RemoveQF") {
       pClass pc = oe->getClass(ClassId);
       if (!pc)
-        throw std::exception("Class not found");
+        throw std::runtime_error("Class not found");
       if (pc->getQualificationFinal()) {
         bool hasResult = false;
         for (int inst = 0; inst < pc->getQualificationFinal()->getNumClasses(); inst++) {
@@ -1724,7 +1724,7 @@ int TabClass::classCB(gdioutput &gdi, int type, void *data)
 
       pClass pc=oe->getClass(cid);
       if (!pc)
-        throw std::exception("Class not found");
+        throw std::runtime_error("Class not found");
 
       clearPage(gdi, false);
       gdi.addString("", boldLarge, L"Nummerlappar i X#" + pc->getName());
@@ -1837,7 +1837,7 @@ int TabClass::classCB(gdioutput &gdi, int type, void *data)
 
       pClass pc=oe->getClass(ClassId);
       if (!pc)
-        throw std::exception("Class not found");
+        throw std::runtime_error("Class not found");
       if (pc->getQualificationFinal() || (pc->getParentClass() && pc->getParentClass()->getQualificationFinal())) {
         set<int> base;
         if (pc->getParentClass()) {
@@ -1924,7 +1924,7 @@ int TabClass::classCB(gdioutput &gdi, int type, void *data)
 
       pClass pc=oe->getClass(ClassId);
       if (!pc)
-        throw std::exception("Class not found");
+        throw std::runtime_error("Class not found");
 
       ListBoxInfo lbi;
       gdi.getSelectedItem("Type", lbi);
@@ -1980,7 +1980,7 @@ int TabClass::classCB(gdioutput &gdi, int type, void *data)
 
       pClass pc=oe->getClass(ClassId);
       if (!pc)
-        throw std::exception("Class not found");
+        throw std::runtime_error("Class not found");
 
       vector< pair<wstring, size_t> > rawClass, cls; 
       oe->fillClasses(rawClass, oEvent::extraNone, oEvent::filterNone);
@@ -1999,7 +1999,7 @@ int TabClass::classCB(gdioutput &gdi, int type, void *data)
         }
       }
       if (cls.empty())
-        throw std::exception("En klass kan inte slås ihop med sig själv.");
+        throw std::runtime_error("En klass kan inte slås ihop med sig själv.");
 
 
       clearPage(gdi, true);
@@ -2028,15 +2028,15 @@ int TabClass::classCB(gdioutput &gdi, int type, void *data)
 
       pClass pc=oe->getClass(ClassId);
       if (!pc)
-        throw std::exception("Class not found");
+        throw std::runtime_error("Class not found");
 
       pClass mergeClass = oe->getClass(gdi.getSelectedItem("Class").first);
 
       if (!mergeClass)
-        throw std::exception("Ingen klass vald.");
+        throw std::runtime_error("Ingen klass vald.");
 
       if (mergeClass->getId() == ClassId)
-        throw std::exception("En klass kan inte slås ihop med sig själv.");
+        throw std::runtime_error("En klass kan inte slås ihop med sig själv.");
 
       if (gdi.ask(L"Vill du flytta löpare från X till Y och ta bort Z?#"
         + mergeClass->getName() + L"#" + pc->getName() + L"#" + mergeClass->getName())) {
@@ -2051,16 +2051,16 @@ int TabClass::classCB(gdioutput &gdi, int type, void *data)
 
       pClass pc=oe->getClass(ClassId);
       if (!pc)
-        throw std::exception("Class not found");
+        throw std::runtime_error("Class not found");
 
       ListBoxInfo lbi;
       gdi.getSelectedItem("Class", lbi);
 
       if (signed(lbi.data)<=0)
-        throw std::exception("Ingen klass vald.");
+        throw std::runtime_error("Ingen klass vald.");
 
       if (lbi.data==ClassId)
-        throw std::exception("En klass kan inte slås ihop med sig själv.");
+        throw std::runtime_error("En klass kan inte slås ihop med sig själv.");
 
       pc->mergeClass(lbi.data);
     
@@ -2156,7 +2156,7 @@ int TabClass::classCB(gdioutput &gdi, int type, void *data)
     else if (bi.id == "Method") {
       pClass pc = oe->getClass(ClassId);
       if (!pc)
-        throw std::exception("Nullpointer exception");
+        throw std::runtime_error("Nullpointer exception");
 
       drawDialog(gdi, oEvent::DrawMethod(bi.data), *pc);
     }
@@ -2192,14 +2192,14 @@ void TabClass::readClassSettings(gdioutput &gdi)
     if (drawInfo.firstStart == 0 && startPos == -1)
       startPos = 0;
     else if (startPos<0 || (startPos % drawInfo.baseInterval)!=0)
-      throw std::exception("Ogiltig tid");
+      throw std::runtime_error("Ogiltig tid");
 
     startPos /= drawInfo.baseInterval;
 
     int intervalPos = convertAbsoluteTimeMS(intervall);
 
     if (intervalPos<0 || intervalPos == NOTIME || (intervalPos % drawInfo.baseInterval)!=0)
-      throw std::exception("Ogiltigt startintervall");
+      throw std::runtime_error("Ogiltigt startintervall");
 
     intervalPos /= drawInfo.baseInterval;
 
@@ -2936,7 +2936,7 @@ void TabClass::save(gdioutput &gdi, bool skipReload)
     return;
 
   if (name.empty())
-    throw std::exception("Klassen måste ha ett namn.");
+    throw std::runtime_error("Klassen måste ha ett namn.");
 
   bool create=false;
 
@@ -2948,7 +2948,7 @@ void TabClass::save(gdioutput &gdi, bool skipReload)
   }
 
   if (!pc)
-    throw std::exception("Class not found.");
+    throw std::runtime_error("Class not found.");
 
   ClassId=pc->getId();
 

@@ -939,7 +939,7 @@ int TabTeam::teamCB(gdioutput &gdi, int type, void *data)
       DWORD tid=teamId;
 
       if (tid==0)
-        throw std::exception("Inget lag valt.");
+        throw std::runtime_error("Inget lag valt.");
 
       pTeam t = oe->getTeam(tid);
 

@@ -1190,7 +1190,7 @@ void TabSpeaker::storeManualTime(gdioutput &gdi)
   int punch=gdi.getTextNo("Control");
 
   if (punch<=0)
-    throw std::exception("Kontrollnummer måste anges.");
+    throw std::runtime_error("Kontrollnummer måste anges.");
 
   lastControl=gdi.getText("Control");
   const wstring &r_str=gdi.getText("Runner");
@@ -1202,7 +1202,7 @@ void TabSpeaker::storeManualTime(gdioutput &gdi)
   int itime=oe->getRelativeTime(time);
 
   if (itime <= 0)
-    throw std::exception("Ogiltig tid.");
+    throw std::runtime_error("Ogiltig tid.");
 
   pRunner r=oe->getRunnerByBibOrStartNo(r_str, false);
   int r_no = _wtoi(r_str.c_str());

@@ -46,7 +46,7 @@ StringCache &StringCache::getInstance() {
   if (mainThreadId == -1)
     mainThreadId = id;
   else if (mainThreadId != id)
-    throw std::exception("Thread access error");
+    throw std::runtime_error("Thread access error");
   return globalStringCache;
 }
 

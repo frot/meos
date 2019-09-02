@@ -2403,7 +2403,7 @@ void SICard::deserializePunches(const string &arg) {
     vector<string> mark;
     split(out[k], "-", mark);
     if (mark.size() != 2)
-      throw std::exception("Invalid string");
+      throw std::runtime_error("Invalid string");
     DWORD *tp = 0;
     if (mark[0] == "F") {
       FinishPunch.Code = 1;

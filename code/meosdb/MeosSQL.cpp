@@ -152,7 +152,7 @@ bool MeosSQL::listCompetitions(oEvent *oe, bool keepConnection) {
   errorMessage.clear();
   CmpDataBase="";
   if (oe->isClient())
-    throw std::exception("Runtime error.");
+    throw std::runtime_error("Runtime error.");
 
   oe->serverName.clear();
 
@@ -3904,7 +3904,7 @@ OpFailStatus MeosSQL::syncRead(bool forceRead, oBase *obj) {
     ret = SyncRead((oEvent *)obj);
   }
   else 
-    throw std::exception("Database error");
+    throw std::runtime_error("Database error");
 
   processMissingObjects();
 

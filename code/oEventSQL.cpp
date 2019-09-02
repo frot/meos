@@ -446,7 +446,7 @@ bool oEvent::connectToMySQL(const string &server, const string &user, const stri
 bool oEvent::uploadSynchronize()
 {
   if (isThreadReconnecting())
-    throw std::exception("Internt fel i anslutningen. Starta om MeOS");
+    throw std::runtime_error("Internt fel i anslutningen. Starta om MeOS");
   wstring newId = makeValidFileName(currentNameId, true);
   currentNameId = newId;
 
@@ -482,7 +482,7 @@ bool oEvent::uploadSynchronize()
 
 #ifdef BUILD_DB_DLL
   if (!msSynchronizeUpdate)
-    throw std::exception("Internt fel. Starta om MeOS");
+    throw std::runtime_error("Internt fel. Starta om MeOS");
 #endif
 
   if ( !msOpenDatabase(this) ){
@@ -525,7 +525,7 @@ bool oEvent::uploadSynchronize()
 bool oEvent::readSynchronize(const CompetitionInfo &ci)
 {
   if (ci.Id<=0)
-    throw std::exception("help:12290");
+    throw std::runtime_error("help:12290");
 
   if (isThreadReconnecting())
     return false;
@@ -950,7 +950,7 @@ void oEvent::dropDatabase()
 
     dropped = msDropDatabase(this)!=0;
   }
-  else throw std::exception("Inte ansluten");
+  else throw std::runtime_error("Inte ansluten");
 
   if (!dropped) {
     char bf[256];
@@ -958,7 +958,7 @@ void oEvent::dropDatabase()
     if (strlen(bf)>0)
       throw std::exception(bf);
 
-    throw std::exception("Operationen misslyckades. Orsak okänd.");
+    throw std::runtime_error("Operationen misslyckades. Orsak okänd.");
   }
   clear();
 }

@@ -156,7 +156,7 @@ void oPunch::setTimeInt(int tt, bool databaseUpdate) {
 }
 
 oDataContainer &oPunch::getDataBuffers(pvoid &data, pvoid &olddata, pvectorstr &strData) const {
-  throw std::exception("Unsupported");
+  throw std::runtime_error("Unsupported");
 }
 
 wstring oPunch::getRunningTime(int startTime) const
